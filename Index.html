@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CLOUD SPEAKING - Online Communication Course</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Custom styles to mimic GitHub's dark, deep background and ensure the canvas covers everything */
+      :root {
+        --github-dark: #0d1117;
+        --github-green: #3fb950;
+        --card-border-color: rgba(
+          255,
+          255,
+          255,
+          0.15
+        ); /* Lighter border for contrast */
+        --card-bg-start: rgba(255, 255, 255, 0.08);
+        --card-bg-end: rgba(255, 255, 255, 0.02);
+        --card-glow-start: rgba(162, 107, 240, 0.5); /* Violet glow */
+        --card-glow-end: rgba(89, 137, 237, 0.5); /* Blue glow */
+      }
+      body {
+        background-color: var(--github-dark);
+        font-family: "Inter", sans-serif;
+        overflow-x: hidden; /* Prevent horizontal scroll from particles near edges */
+      }
+      /* Style for the canvas to act as the animated background */
+      #particleCanvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -10;
+        opacity: 0.5; /* Subtle effect */
+      }
+      /* Gradient for the main hero text to mimic GitHub's visual style */
+      .hero-gradient {
+        background: linear-gradient(180deg, #c9d1d9, #8b949e);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+      }
+
+      /* NEW: Styles for the feature cards to match the Copilot UI */
+      .feature-card {
+        background: linear-gradient(
+          180deg,
+          var(--card-bg-start) 0%,
+          var(--card-bg-end) 100%
+        );
+        border: 1px solid var(--card-border-color);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 16px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        position: relative; /* Needed for the pseudo-element glow */
+        overflow: hidden; /* Important to contain the glow */
+        transition: all 0.3s ease; /* Smooth transition for hover effects */
+      }
+
+      /* Inner glow border effect on the card, appearing on hover */
+      .feature-card::before {
+        content: "";
+        position: absolute;
+        inset: -1px; /* Slightly larger than the card */
+        border-radius: 17px; /* Match card radius */
+        padding: 1px; /* To make sure the gradient is inside the border */
+        background: linear-gradient(
+          135deg,
+          var(--card-glow-start),
+          var(--card-glow-end)
+        );
+        -webkit-mask: linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        z-index: -1; /* Behind the card content */
+        filter: blur(8px); /* Adjust blur for glow intensity */
+        opacity: 0; /* Hidden by default */
+        transition: opacity 0.3s ease; /* Smooth transition for glow */
+      }
+
+      .feature-card:hover::before {
+        opacity: 0.7; /* Show glow on hover */
+      }
+
+      /* Ensure card content is always on top */
+      .feature-card > * {
+        position: relative;
+        z-index: 1;
+      }
+    </style>
+  </head>
+  <body class="text-white">
+    <!-- Background Animation Canvas --><canvas id="particleCanvas"></canvas>
+
+    <!-- Header / Navigation Bar (Simplified GitHub look) -->
+    <header
+      class="sticky top-0 z-10 p-4 border-b border-gray-700/50 backdrop-blur-sm"
+    >
+      <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-white tracking-widest">
+          CLOUD SPEAKING
+        </h1>
+        <nav class="hidden md:flex space-x-6 text-sm text-gray-300">
+          <a href="#about" class="hover:text-white transition duration-200"
+            >About</a
+          >
+          <a href="#features" class="hover:text-white transition duration-200"
+            >Features</a
+          >
+          <a href="#register" class="hover:text-white transition duration-200"
+            >Register</a
+          >
+          <a href="#contact" class="hover:text-white transition duration-200"
+            >Contact</a
+          >
+        </nav>
+        <a
+          href="https://tinyurl.com/cloudspeaking"
+          target="_blank"
+          class="px-4 py-1 border border-gray-600 rounded-lg text-sm hover:border-white transition duration-300"
+        >
+          Register Now
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Content Area (Hero Section - GitHub style) -->
+    <main class="max-w-7xl mx-auto px-4 py-16 md:py-32">
+      <section
+        id="about"
+        class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center"
+      >
+        <!-- Left Column: Main Headline and Description -->
+        <div class="lg:col-span-7">
+          <p
+            class="text-xl text-gray-400 mb-4 font-semibold uppercase tracking-wider"
+          >
+            Speak Easy, Shine Crazy
+          </p>
+          <h2
+            class="text-5xl sm:text-7xl font-extrabold leading-tight mb-8 hero-gradient"
+          >
+            CLOUD SPEAKING
+          </h2>
+          <p class="text-2xl text-gray-300 mb-8 max-w-xl">
+            An online platform for women to learn English and improve their
+            communication skills from the basics.
+          </p>
+
+          <!-- Key Benefits List -->
+          <ul class="space-y-3 text-lg text-gray-300">
+            <li class="flex items-start">
+              <svg
+                class="w-6 h-6 mr-2 text-green-400 flex-shrink-0 mt-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
+              <span class="font-medium"
+                >Unlock your confidence in English Speaking</span
+              >
+            </li>
+            <li class="flex items-start">
+              <svg
+                class="w-6 h-6 mr-2 text-green-400 flex-shrink-0 mt-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
+              <span class="font-medium">Master in Public Speaking skills</span>
+            </li>
+            <li class="flex items-start">
+              <svg
+                class="w-6 h-6 mr-2 text-green-400 flex-shrink-0 mt-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
+              <span class="font-medium"
+                >Enhance your personality and Communication abilities</span
+              >
+            </li>
+          </ul>
+        </div>
+
+        <!-- Right Column: Registration/CTA Box (Simulating a GitHub sign-up box) -->
+        <div
+          id="register"
+          class="lg:col-span-5 bg-gray-800/50 p-8 md:p-10 rounded-xl border border-gray-700 shadow-2xl"
+        >
+          <div class="text-center mb-6">
+            <p class="text-4xl font-bold text-green-400 mb-2">Just @499</p>
+            <p class="text-lg text-gray-300">
+              per month
+              <span class="text-sm text-yellow-300"
+                >(Limited Seats Available)</span
+              >
+            </p>
+            <p class="text-sm text-gray-400 mt-2">
+              Classes begin on
+              <span class="font-semibold text-white">1st November, 2025</span>
+            </p>
+          </div>
+
+          <div class="space-y-4">
+            <p class="text-sm text-center text-gray-400">
+              Mode: <span class="font-semibold text-white">Online</span>
+            </p>
+
+            <a
+              href="https://tinyurl.com/cloudspeaking"
+              target="_blank"
+              class="w-full block text-center bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition duration-300 shadow-lg shadow-green-700/30"
+            >
+              Secure Your Seat Now
+            </a>
+
+            <div class="mt-6 pt-4 border-t border-gray-700">
+              <p class="text-sm text-gray-400 text-center">
+                For bulk registrations or inquiries:
+              </p>
+              <p class="text-lg text-center font-bold text-white mt-1">
+                Call/WhatsApp:
+                <a href="tel:7095891424" class="hover:text-green-400 transition"
+                  >7095891424</a
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Secondary Section: Course Offerings - NOW WITH COPILOT-INSPIRED DESIGN -->
+      <section id="features" class="mt-20 pt-16 border-t border-gray-700/50">
+        <h3 class="text-4xl font-extrabold mb-8 text-white text-center">
+          What We Offer
+        </h3>
+        <p class="text-xl text-gray-400 mb-12 text-center max-w-3xl mx-auto">
+          Training by an Experienced and Certified Trainer, tailored
+          specifically for females (Students, Housewives, Working
+          Professionals).
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Feature Card 1 -->
+          <div class="feature-card p-6 shadow-xl">
+            <svg
+              class="w-8 h-8 text-green-400 mb-3"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 11-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.354-.354M7 9h4m-4 4h4"
+              ></path>
+            </svg>
+            <h4 class="text-xl font-semibold mb-2 text-white">
+              Engaging & Interactive Sessions
+            </h4>
+            <p class="text-gray-300">
+              High-energy classes designed to keep you involved and motivated
+              throughout the learning process.
+            </p>
+          </div>
+
+          <!-- Feature Card 2 -->
+          <div class="feature-card p-6 shadow-xl">
+            <svg
+              class="w-8 h-8 text-green-400 mb-3"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M14 10h4.765l-2.382 2.382M14 10l.928-.928M14 10a3 3 0 11-6 0 3 3 0 016 0z"
+              ></path>
+            </svg>
+            <h4 class="text-xl font-semibold mb-2 text-white">
+              Real-Life Conversations
+            </h4>
+            <p class="text-gray-300">
+              Practice dialogues and scenarios relevant to daily life and
+              professional environments to build practical fluency.
+            </p>
+          </div>
+
+          <!-- Feature Card 3 -->
+          <div class="feature-card p-6 shadow-xl">
+            <svg
+              class="w-8 h-8 text-green-400 mb-3"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 6.253v13m0-13C10.832 5.477 9.206 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.794 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.794 5 16.5 5s3.332.477 4.5 1.253v13C19.832 18.477 18.206 18 16.5 18s-3.332.477-4.5 1.253"
+              ></path>
+            </svg>
+            <h4 class="text-xl font-semibold mb-2 text-white">
+              Comprehensive Training
+            </h4>
+            <p class="text-gray-300">
+              A structured curriculum covering everything from basics (grammar,
+              vocabulary) to advanced public speaking techniques.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer
+      id="contact"
+      class="border-t border-gray-700/50 mt-16 p-8 text-center text-sm text-gray-500"
+    >
+      <p>&copy; 2025 CLOUD SPEAKING. All rights reserved.</p>
+      <p class="mt-2">
+        Developed to inspire confidence and clear communication.
+      </p>
+    </footer>
+
+    <!-- Custom JavaScript for the GitHub-like Particle Animation -->
+    <script>
+      const canvas = document.getElementById("particleCanvas");
+      const ctx = canvas.getContext("2d");
+      let particles = [];
+      var w, h; // Changed 'let' to 'var' to prevent redeclaration error
+
+      // Set up the canvas dimensions on load and resize
+      function resizeCanvas() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+        // Re-initialize particles on resize to ensure they are within bounds
+        initParticles();
+      }
+
+      class Particle {
+        constructor() {
+          this.x = Math.random() * w;
+          this.y = Math.random() * h;
+          this.vx = (Math.random() - 0.5) * 0.3; // Very slow movement
+          this.vy = (Math.random() - 0.5) * 0.3;
+          this.radius = Math.random() * 1.5 + 0.5; // Small dots
+          this.color = "rgba(63, 185, 80, 0.7)"; // GitHub green color for dots
+        }
+
+        update() {
+          // Move particle
+          this.x += this.vx;
+          this.y += this.vy;
+
+          // Keep particles within bounds
+          if (this.x < 0 || this.x > w) this.vx *= -1;
+          if (this.y < 0 || this.y > h) this.vy *= -1;
+        }
+
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fillStyle = this.color;
+          ctx.fill();
+        }
+      }
+
+      function initParticles() {
+        particles = [];
+        const particleCount = Math.floor((w * h) / 15000); // Density based on screen size
+        for (let i = 0; i < particleCount; i++) {
+          particles.push(new Particle());
+        }
+      }
+
+      function drawLines() {
+        const maxDistanceSq = 120 * 120; // Max distance for lines (squared for performance)
+
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const p1 = particles[i];
+            const p2 = particles[j];
+
+            const dx = p1.x - p2.x;
+            const dy = p1.y - p2.y;
+            const distanceSq = dx * dx + dy * dy;
+
+            if (distanceSq < maxDistanceSq) {
+              const opacity = 1 - distanceSq / maxDistanceSq;
+              ctx.beginPath();
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(p2.x, p2.y);
+              // Line color is slightly faded green/gray
+              ctx.strokeStyle = `rgba(63, 185, 80, ${opacity * 0.15})`;
+              ctx.lineWidth = 0.5;
+              ctx.stroke();
+            }
+          }
+        }
+      }
+
+      // Main animation loop
+      function animate() {
+        ctx.clearRect(0, 0, w, h); // Clear the frame
+
+        drawLines(); // Draw connecting lines
+
+        particles.forEach((p) => {
+          p.update();
+          p.draw();
+        });
+
+        requestAnimationFrame(animate);
+      }
+
+      // Initialize and start
+      window.addEventListener("load", () => {
+        resizeCanvas();
+        animate();
+      });
+      window.addEventListener("resize", resizeCanvas);
+    </script>
+  </body>
+</html>
