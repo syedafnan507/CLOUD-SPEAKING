@@ -1,33 +1,99 @@
 <!DOCTYPE html>
-<html lang="en">
+<!-- Add class="dark" by default, JS will manage this -->
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CLOUD SPEAKING - Online Communication Course</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Icons for toggle and social buttons -->
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+
     <style>
-      /* Custom styles to mimic GitHub's dark, deep background and ensure the canvas covers everything */
+      /* Custom styles now use CSS Variables for easy light/dark mode switching.
+        'html.dark' class controls the theme.
+      */
       :root {
-        --github-dark: #0d1117;
+        /* LIGHT MODE DEFAULT */
+        --bg-color: #ffffff;
+        --text-color: #24292e;
+        --text-color-light: #586069;
+        --text-color-heading: #1f2328;
+        --header-bg: rgba(255, 255, 255, 0.8);
+        --header-border: rgba(0, 0, 0, 0.1);
+        --footer-border: rgba(0, 0, 0, 0.1);
+        --footer-text: #6a737d;
+        --box-bg: rgba(246, 248, 250, 0.8);
+        --box-border: #e1e4e8;
+        --particle-color: rgba(45, 160, 65, 0.7); /* Green for light mode */
+        --particle-line-color: rgba(45, 160, 65, 0.15);
+        --particle-opacity: 0.3;
+        --github-green: #2da041;
+        --github-green-hover: #268a37;
+        --github-yellow: #b08800;
+        --github-blue-text: #0366d6;
+        --card-border-color: rgba(0, 0, 0, 0.1);
+        --card-bg-start: rgba(0, 0, 0, 0.03);
+        --card-bg-end: rgba(0, 0, 0, 0.01);
+        --card-glow-start: rgba(89, 137, 237, 0.7); /* Blue glow */
+        --card-glow-end: rgba(162, 107, 240, 0.7); /* Violet glow */
+        --hero-grad-start: #1f2328;
+        --hero-grad-end: #444d56;
+      }
+
+      html.dark:root {
+        /* DARK MODE */
+        --bg-color: #0d1117;
+        --text-color: #c9d1d9;
+        --text-color-light: #8b949e;
+        --text-color-heading: #ffffff;
+        --header-bg: rgba(13, 17, 23, 0.8);
+        --header-border: rgba(255, 255, 255, 0.1);
+        --footer-border: rgba(48, 54, 61, 0.5);
+        --footer-text: #6e7681;
+        --box-bg: rgba(36, 41, 47, 0.5);
+        --box-border: #30363d;
+        --particle-color: rgba(63, 185, 80, 0.7); /* Original GitHub green */
+        --particle-line-color: rgba(63, 185, 80, 0.15);
+        --particle-opacity: 0.5;
         --github-green: #3fb950;
-        --card-border-color: rgba(
-          255,
-          255,
-          255,
-          0.15
-        ); /* Lighter border for contrast */
+        --github-green-hover: #48c95e;
+        --github-yellow: #e3b341;
+        --github-blue-text: #58a6ff;
+        --card-border-color: rgba(255, 255, 255, 0.15);
         --card-bg-start: rgba(255, 255, 255, 0.08);
         --card-bg-end: rgba(255, 255, 255, 0.02);
-        --card-glow-start: rgba(162, 107, 240, 0.5); /* Violet glow */
-        --card-glow-end: rgba(89, 137, 237, 0.5); /* Blue glow */
+        --card-glow-start: rgba(162, 107, 240, 0.5);
+        --card-glow-end: rgba(89, 137, 237, 0.5);
+        --hero-grad-start: #c9d1d9;
+        --hero-grad-end: #8b949e;
       }
+
+      /* Base body styles */
       body {
-        background-color: var(--github-dark);
+        background-color: var(--bg-color);
+        color: var(--text-color);
         font-family: "Inter", sans-serif;
-        overflow-x: hidden; /* Prevent horizontal scroll from particles near edges */
+        overflow-x: hidden;
+        transition: background-color 0.3s ease, color 0.3s ease;
       }
-      /* Style for the canvas to act as the animated background */
+
+      /* Particle canvas */
       #particleCanvas {
         position: fixed;
         top: 0;
@@ -35,18 +101,24 @@
         width: 100%;
         height: 100%;
         z-index: -10;
-        opacity: 0.5; /* Subtle effect */
+        opacity: var(--particle-opacity);
+        transition: opacity 0.3s ease;
       }
-      /* Gradient for the main hero text to mimic GitHub's visual style */
+
+      /* Hero text gradient */
       .hero-gradient {
-        background: linear-gradient(180deg, #c9d1d9, #8b949e);
+        background: linear-gradient(
+          180deg,
+          var(--hero-grad-start),
+          var(--hero-grad-end)
+        );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         color: transparent;
       }
 
-      /* NEW: Styles for the feature cards to match the Copilot UI */
+      /* Feature cards from original */
       .feature-card {
         background: linear-gradient(
           180deg,
@@ -58,18 +130,17 @@
         -webkit-backdrop-filter: blur(20px);
         border-radius: 16px;
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-        position: relative; /* Needed for the pseudo-element glow */
-        overflow: hidden; /* Important to contain the glow */
-        transition: all 0.3s ease; /* Smooth transition for hover effects */
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
       }
 
-      /* Inner glow border effect on the card, appearing on hover */
       .feature-card::before {
         content: "";
         position: absolute;
-        inset: -1px; /* Slightly larger than the card */
-        border-radius: 17px; /* Match card radius */
-        padding: 1px; /* To make sure the gradient is inside the border */
+        inset: -1px;
+        border-radius: 17px;
+        padding: 1px;
         background: linear-gradient(
           135deg,
           var(--card-glow-start),
@@ -79,59 +150,158 @@
           linear-gradient(#fff 0 0);
         -webkit-mask-composite: xor;
         mask-composite: exclude;
-        z-index: -1; /* Behind the card content */
-        filter: blur(8px); /* Adjust blur for glow intensity */
-        opacity: 0; /* Hidden by default */
-        transition: opacity 0.3s ease; /* Smooth transition for glow */
+        z-index: -1;
+        filter: blur(8px);
+        opacity: 0;
+        transition: opacity 0.3s ease;
       }
 
       .feature-card:hover::before {
-        opacity: 0.7; /* Show glow on hover */
+        opacity: 0.7;
       }
 
-      /* Ensure card content is always on top */
+      .feature-card:hover {
+        transform: translateY(-4px); /* Added hover motion */
+      }
+
       .feature-card > * {
         position: relative;
         z-index: 1;
       }
+
+      /* Toggle Switch Styles */
+      .toggle-label {
+        width: 50px;
+        height: 26px;
+        background-color: #333;
+        border-radius: 9999px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        padding: 3px;
+        transition: background-color 0.3s ease;
+        border: 1px solid var(--text-color-light);
+      }
+      .toggle-checkbox {
+        display: none; /* Hide default checkbox */
+      }
+      .toggle-switch {
+        width: 20px;
+        height: 20px;
+        background-color: white;
+        border-radius: 50%;
+        display: block;
+        transition: transform 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .toggle-switch ion-icon {
+        font-size: 14px;
+        color: #333;
+      }
+      /* Checked state (Light mode) */
+      .toggle-checkbox:not(:checked) + .toggle-label {
+        background-color: #d1d5db; /* Light gray */
+        border-color: var(--text-color-light);
+      }
+      .toggle-checkbox:not(:checked) + .toggle-label .toggle-switch {
+        transform: translateX(24px);
+        background-color: #fff;
+      }
+      .toggle-checkbox:not(:checked) + .toggle-label .toggle-switch .moon {
+        display: none;
+      }
+      .toggle-checkbox:not(:checked) + .toggle-label .toggle-switch .sun {
+        display: block;
+        color: #f59e0b; /* Amber */
+      }
+      /* Unchecked state (Dark mode) */
+      .toggle-checkbox:checked + .toggle-label {
+        background-color: #1f2937; /* Dark gray */
+        border-color: var(--text-color-light);
+      }
+      .toggle-checkbox:checked + .toggle-label .toggle-switch {
+        transform: translateX(0px);
+        background-color: #fff;
+      }
+      .toggle-checkbox:checked + .toggle-label .toggle-switch .moon {
+        display: block;
+        color: #4b5563; /* Mid gray */
+      }
+      .toggle-checkbox:checked + .toggle-label .toggle-switch .sun {
+        display: none;
+      }
+
+      /* Generic transition for hover effects */
+      .btn,
+      .nav-link {
+        transition: all 0.3s ease-in-out;
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+        opacity: 0.9;
+      }
+      .nav-link:hover {
+        color: var(--github-green) !important;
+      }
     </style>
   </head>
-  <body class="text-white">
+  <body class="text-[var(--text-color)]">
     <!-- Background Animation Canvas --><canvas id="particleCanvas"></canvas>
 
-    <!-- Header / Navigation Bar (Simplified GitHub look) -->
+    <!-- Header / Navigation Bar -->
     <header
-      class="sticky top-0 z-10 p-4 border-b border-gray-700/50 backdrop-blur-sm"
+      class="sticky top-0 z-50 p-4 border-b backdrop-blur-sm"
+      style="
+        background-color: var(--header-bg);
+        border-color: var(--header-border);
+      "
     >
       <div class="max-w-7xl mx-auto flex justify-between items-center">
-        <h1 class="text-2xl font-bold text-white tracking-widest">
+        <h1
+          class="text-2xl font-bold tracking-widest"
+          style="color: var(--text-color-heading)"
+        >
           CLOUD SPEAKING
         </h1>
-        <nav class="hidden md:flex space-x-6 text-sm text-gray-300">
-          <a href="#about" class="hover:text-white transition duration-200"
-            >About</a
+        <div class="flex items-center space-x-4">
+          <nav
+            class="hidden md:flex space-x-6 text-sm"
+            style="color: var(--text-color-light)"
           >
-          <a href="#features" class="hover:text-white transition duration-200"
-            >Features</a
+            <a href="#about" class="nav-link">About</a>
+            <a href="#features" class="nav-link">Features</a>
+            <a href="#register" class="nav-link">Register</a>
+            <a href="#contact" class="nav-link">Contact</a>
+          </nav>
+
+          <!-- Theme Toggle -->
+          <div class="flex items-center">
+            <input
+              type="checkbox"
+              id="theme-toggle"
+              class="toggle-checkbox"
+              checked
+            />
+            <label for="theme-toggle" class="toggle-label">
+              <span class="toggle-switch">
+                <ion-icon name="moon" class="moon"></ion-icon>
+                <ion-icon name="sunny" class="sun"></ion-icon>
+              </span>
+            </label>
+          </div>
+
+          <button
+            class="open-auth-modal btn px-4 py-1 border rounded-lg text-sm border-gray-400 dark:border-gray-600 text-[var(--text-color)] hover:border-[var(--text-color-heading)]"
           >
-          <a href="#register" class="hover:text-white transition duration-200"
-            >Register</a
-          >
-          <a href="#contact" class="hover:text-white transition duration-200"
-            >Contact</a
-          >
-        </nav>
-        <a
-          href="https://tinyurl.com/cloudspeaking"
-          target="_blank"
-          class="px-4 py-1 border border-gray-600 rounded-lg text-sm hover:border-white transition duration-300"
-        >
-          Register Now
-        </a>
+            Sign Up / Log In
+          </button>
+        </div>
       </div>
     </header>
 
-    <!-- Main Content Area (Hero Section - GitHub style) -->
+    <!-- Main Content Area -->
     <main class="max-w-7xl mx-auto px-4 py-16 md:py-32">
       <section
         id="about"
@@ -140,7 +310,8 @@
         <!-- Left Column: Main Headline and Description -->
         <div class="lg:col-span-7">
           <p
-            class="text-xl text-gray-400 mb-4 font-semibold uppercase tracking-wider"
+            class="text-xl mb-4 font-semibold uppercase tracking-wider"
+            style="color: var(--text-color-light)"
           >
             Speak Easy, Shine Crazy
           </p>
@@ -149,20 +320,21 @@
           >
             CLOUD SPEAKING
           </h2>
-          <p class="text-2xl text-gray-300 mb-8 max-w-xl">
+          <p class="text-2xl mb-8 max-w-xl" style="color: var(--text-color)">
             An online platform for women to learn English and improve their
             communication skills from the basics.
           </p>
 
           <!-- Key Benefits List -->
-          <ul class="space-y-3 text-lg text-gray-300">
+          <ul class="space-y-3 text-lg" style="color: var(--text-color)">
             <li class="flex items-start">
               <svg
-                class="w-6 h-6 mr-2 text-green-400 flex-shrink-0 mt-1"
+                class="w-6 h-6 mr-2 flex-shrink-0 mt-1"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
+                style="color: var(--github-green)"
               >
                 <path
                   stroke-linecap="round"
@@ -177,11 +349,12 @@
             </li>
             <li class="flex items-start">
               <svg
-                class="w-6 h-6 mr-2 text-green-400 flex-shrink-0 mt-1"
+                class="w-6 h-6 mr-2 flex-shrink-0 mt-1"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
+                style="color: var(--github-green)"
               >
                 <path
                   stroke-linecap="round"
@@ -194,11 +367,12 @@
             </li>
             <li class="flex items-start">
               <svg
-                class="w-6 h-6 mr-2 text-green-400 flex-shrink-0 mt-1"
+                class="w-6 h-6 mr-2 flex-shrink-0 mt-1"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
+                style="color: var(--github-green)"
               >
                 <path
                   stroke-linecap="round"
@@ -214,45 +388,71 @@
           </ul>
         </div>
 
-        <!-- Right Column: Registration/CTA Box (Simulating a GitHub sign-up box) -->
+        <!-- Right Column: Registration/CTA Box -->
         <div
           id="register"
-          class="lg:col-span-5 bg-gray-800/50 p-8 md:p-10 rounded-xl border border-gray-700 shadow-2xl"
+          class="lg:col-span-5 p-8 md:p-10 rounded-xl border shadow-2xl"
+          style="background-color: var(--box-bg); border-color: var(--box-border)"
         >
           <div class="text-center mb-6">
-            <p class="text-4xl font-bold text-green-400 mb-2">Just @499</p>
-            <p class="text-lg text-gray-300">
+            <p
+              class="text-4xl font-bold mb-2"
+              style="color: var(--github-green)"
+            >
+              Just @499
+            </p>
+            <p class="text-lg" style="color: var(--text-color)">
               per month
-              <span class="text-sm text-yellow-300"
+              <span class="text-sm" style="color: var(--github-yellow)"
                 >(Limited Seats Available)</span
               >
             </p>
-            <p class="text-sm text-gray-400 mt-2">
+            <p class="text-sm mt-2" style="color: var(--text-color-light)">
               Classes begin on
-              <span class="font-semibold text-white">1st November, 2025</span>
+              <span class="font-semibold" style="color: var(--text-color-heading)"
+                >1st November, 2025</span
+              >
             </p>
           </div>
 
           <div class="space-y-4">
-            <p class="text-sm text-center text-gray-400">
-              Mode: <span class="font-semibold text-white">Online</span>
+            <p class="text-sm text-center" style="color: var(--text-color-light)">
+              Mode:
+              <span class="font-semibold" style="color: var(--text-color-heading)"
+                >Online</span
+              >
             </p>
 
-            <a
-              href="https://tinyurl.com/cloudspeaking"
-              target="_blank"
-              class="w-full block text-center bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition duration-300 shadow-lg shadow-green-700/30"
+            <button
+              class="open-auth-modal btn w-full block text-center text-white font-semibold py-3 rounded-lg shadow-lg shadow-green-700/30"
+              style="
+                background-color: var(--github-green);
+                color: #ffffff !important;
+              "
+              onmouseover="this.style.backgroundColor='var(--github-green-hover)'"
+              onmouseout="this.style.backgroundColor='var(--github-green)'"
             >
               Secure Your Seat Now
-            </a>
+            </button>
 
-            <div class="mt-6 pt-4 border-t border-gray-700">
-              <p class="text-sm text-gray-400 text-center">
+            <div
+              class="mt-6 pt-4 border-t"
+              style="border-color: var(--box-border)"
+            >
+              <p class="text-sm text-center" style="color: var(--text-color-light)">
                 For bulk registrations or inquiries:
               </p>
-              <p class="text-lg text-center font-bold text-white mt-1">
+              <p
+                class="text-lg text-center font-bold mt-1"
+                style="color: var(--text-color-heading)"
+              >
                 Call/WhatsApp:
-                <a href="tel:7095891424" class="hover:text-green-400 transition"
+                <a
+                  href="tel:7095891424"
+                  class="transition-colors duration-300"
+                  style="color: var(--github-blue-text)"
+                  onmouseover="this.style.textDecoration='underline'"
+                  onmouseout="this.style.textDecoration='none'"
                   >7095891424</a
                 >
               </p>
@@ -261,12 +461,22 @@
         </div>
       </section>
 
-      <!-- Secondary Section: Course Offerings - NOW WITH COPILOT-INSPIRED DESIGN -->
-      <section id="features" class="mt-20 pt-16 border-t border-gray-700/50">
-        <h3 class="text-4xl font-extrabold mb-8 text-white text-center">
+      <!-- Secondary Section: Course Offerings -->
+      <section
+        id="features"
+        class="mt-20 pt-16 border-t"
+        style="border-color: var(--footer-border)"
+      >
+        <h3
+          class="text-4xl font-extrabold mb-8 text-center"
+          style="color: var(--text-color-heading)"
+        >
           What We Offer
         </h3>
-        <p class="text-xl text-gray-400 mb-12 text-center max-w-3xl mx-auto">
+        <p
+          class="text-xl mb-12 text-center max-w-3xl mx-auto"
+          style="color: var(--text-color-light)"
+        >
           Training by an Experienced and Certified Trainer, tailored
           specifically for females (Students, Housewives, Working
           Professionals).
@@ -276,11 +486,12 @@
           <!-- Feature Card 1 -->
           <div class="feature-card p-6 shadow-xl">
             <svg
-              class="w-8 h-8 text-green-400 mb-3"
+              class="w-8 h-8 mb-3"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
+              style="color: var(--github-green)"
             >
               <path
                 stroke-linecap="round"
@@ -289,10 +500,13 @@
                 d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 11-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.354-.354M7 9h4m-4 4h4"
               ></path>
             </svg>
-            <h4 class="text-xl font-semibold mb-2 text-white">
+            <h4
+              class="text-xl font-semibold mb-2"
+              style="color: var(--text-color-heading)"
+            >
               Engaging & Interactive Sessions
             </h4>
-            <p class="text-gray-300">
+            <p style="color: var(--text-color)">
               High-energy classes designed to keep you involved and motivated
               throughout the learning process.
             </p>
@@ -301,11 +515,12 @@
           <!-- Feature Card 2 -->
           <div class="feature-card p-6 shadow-xl">
             <svg
-              class="w-8 h-8 text-green-400 mb-3"
+              class="w-8 h-8 mb-3"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
+              style="color: var(--github-green)"
             >
               <path
                 stroke-linecap="round"
@@ -314,10 +529,13 @@
                 d="M14 10h4.765l-2.382 2.382M14 10l.928-.928M14 10a3 3 0 11-6 0 3 3 0 016 0z"
               ></path>
             </svg>
-            <h4 class="text-xl font-semibold mb-2 text-white">
+            <h4
+              class="text-xl font-semibold mb-2"
+              style="color: var(--text-color-heading)"
+            >
               Real-Life Conversations
             </h4>
-            <p class="text-gray-300">
+            <p style="color: var(--text-color)">
               Practice dialogues and scenarios relevant to daily life and
               professional environments to build practical fluency.
             </p>
@@ -326,11 +544,12 @@
           <!-- Feature Card 3 -->
           <div class="feature-card p-6 shadow-xl">
             <svg
-              class="w-8 h-8 text-green-400 mb-3"
+              class="w-8 h-8 mb-3"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
+              style="color: var(--github-green)"
             >
               <path
                 stroke-linecap="round"
@@ -339,10 +558,13 @@
                 d="M12 6.253v13m0-13C10.832 5.477 9.206 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.794 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.794 5 16.5 5s3.332.477 4.5 1.253v13C19.832 18.477 18.206 18 16.5 18s-3.332.477-4.5 1.253"
               ></path>
             </svg>
-            <h4 class="text-xl font-semibold mb-2 text-white">
+            <h4
+              class="text-xl font-semibold mb-2"
+              style="color: var(--text-color-heading)"
+            >
               Comprehensive Training
             </h4>
-            <p class="text-gray-300">
+            <p style="color: var(--text-color)">
               A structured curriculum covering everything from basics (grammar,
               vocabulary) to advanced public speaking techniques.
             </p>
@@ -354,7 +576,8 @@
     <!-- Footer -->
     <footer
       id="contact"
-      class="border-t border-gray-700/50 mt-16 p-8 text-center text-sm text-gray-500"
+      class="border-t mt-16 p-8 text-center text-sm"
+      style="border-color: var(--footer-border); color: var(--footer-text)"
     >
       <p>&copy; 2025 CLOUD SPEAKING. All rights reserved.</p>
       <p class="mt-2">
@@ -362,18 +585,194 @@
       </p>
     </footer>
 
-    <!-- Custom JavaScript for the GitHub-like Particle Animation -->
+    <!--
+      NEW: Login/Sign-up Modal
+    -->
+    <div
+      id="auth-modal"
+      class="hidden fixed inset-0 z-[100] items-center justify-center p-4"
+    >
+      <!-- Modal Overlay -->
+      <div
+        id="modal-overlay"
+        class="absolute inset-0 bg-black/70 backdrop-blur-sm"
+      ></div>
+
+      <!-- Modal Content -->
+      <div
+        class="relative z-10 w-full max-w-md p-8 rounded-2xl border shadow-2xl"
+        style="
+          background-color: var(--bg-color);
+          border-color: var(--box-border);
+        "
+      >
+        <!-- Close Button -->
+        <button
+          id="close-modal-btn"
+          class="btn absolute top-4 right-4 text-[var(--text-color-light)] hover:text-[var(--text-color-heading)]"
+        >
+          <ion-icon name="close-outline" class="text-3xl"></ion-icon>
+        </button>
+
+        <!-- Tabs -->
+        <div class="flex mb-6 border-b" style="border-color: var(--box-border)">
+          <button
+            id="signup-tab"
+            class="flex-1 py-3 font-semibold text-center border-b-2"
+            style="color: var(--github-green); border-color: var(--github-green)"
+          >
+            Sign Up
+          </button>
+          <button
+            id="login-tab"
+            class="flex-1 py-3 font-semibold text-center text-[var(--text-color-light)]"
+          >
+            Log In
+          </button>
+        </div>
+
+        <!-- Sign Up Form (Default) -->
+        <div id="signup-form" class="space-y-5">
+          <button
+            class="btn w-full flex items-center justify-center py-3 px-4 border rounded-lg"
+            style="border-color: var(--box-border)"
+          >
+            <ion-icon name="logo-google" class="mr-3 text-lg"></ion-icon>
+            Sign up with Google
+          </button>
+          <button
+            class="btn w-full flex items-center justify-center py-3 px-4 border rounded-lg"
+            style="border-color: var(--box-border)"
+          >
+            <ion-icon name="logo-microsoft" class="mr-3 text-lg"></ion-icon>
+            Sign up with Microsoft
+          </button>
+          <div class="flex items-center">
+            <hr
+              class="flex-1"
+              style="border-color: var(--box-border)"
+            />
+            <span class="px-3 text-sm" style="color: var(--text-color-light)"
+              >OR</span
+            >
+            <hr
+              class="flex-1"
+              style="border-color: var(--box-border)"
+            />
+          </div>
+          <input
+            type="email"
+            id="signup-email"
+            placeholder="Email address"
+            class="w-full p-3 rounded-lg border bg-transparent"
+            style="border-color: var(--box-border)"
+          />
+          <p id="email-error" class="hidden text-red-500 text-sm -mt-3">
+            Please enter a valid email address.
+          </p>
+          <input
+            type="password"
+            id="signup-password"
+            placeholder="Password"
+            class="w-full p-3 rounded-lg border bg-transparent"
+            style="border-color: var(--box-border)"
+          />
+          <p id="password-error" class="hidden text-red-500 text-sm -mt-3">
+            Password must include at least one uppercase letter, one number, and
+            one special character.
+          </p>
+          <button
+            id="create-account-btn"
+            class="btn w-full text-white font-semibold py-3 rounded-lg"
+            style="
+              background-color: var(--github-green);
+              color: #ffffff !important;
+            "
+            onmouseover="this.style.backgroundColor='var(--github-green-hover)'"
+            onmouseout="this.style.backgroundColor='var(--github-green)'"
+          >
+            Create Account
+          </button>
+        </div>
+
+        <!-- Login Form (Hidden) -->
+        <div id="login-form" class="hidden space-y-5">
+          <button
+            class="btn w-full flex items-center justify-center py-3 px-4 border rounded-lg"
+            style="border-color: var(--box-border)"
+          >
+            <ion-icon name="logo-google" class="mr-3 text-lg"></ion-icon>
+            Log in with Google
+          </button>
+          <button
+            class="btn w-full flex items-center justify-center py-3 px-4 border rounded-lg"
+            style="border-color: var(--box-border)"
+          >
+            <ion-icon name="logo-microsoft" class="mr-3 text-lg"></ion-icon>
+            Log in with Microsoft
+          </button>
+          <div class="flex items-center">
+            <hr
+              class="flex-1"
+              style="border-color: var(--box-border)"
+            />
+            <span class="px-3 text-sm" style="color: var(--text-color-light)"
+              >OR</span
+            >
+            <hr
+              class="flex-1"
+              style="border-color: var(--box-border)"
+            />
+          </div>
+          <input
+            type="email"
+            id="login-email"
+            placeholder="Email address"
+            class="w-full p-3 rounded-lg border bg-transparent"
+            style="border-color: var(--box-border)"
+          />
+          <p id="login-email-error" class="hidden text-red-500 text-sm -mt-3">
+            Please enter a valid email address.
+          </p>
+          <input
+            type="password"
+            id="login-password"
+            placeholder="Password"
+            class="w-full p-3 rounded-lg border bg-transparent"
+            style="border-color: var(--box-border)"
+          />
+          <p id="login-password-error" class="hidden text-red-500 text-sm -mt-3">
+            Please enter your password.
+          </p>
+          <button
+            id="login-btn"
+            class="btn w-full text-white font-semibold py-3 rounded-lg"
+            style="
+              background-color: var(--github-green);
+              color: #ffffff !important;
+            "
+            onmouseover="this.style.backgroundColor='var(--github-green-hover)'"
+            onmouseout="this.style.backgroundColor='var(--github-green)'"
+          >
+            Log In
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 
+      JavaScript Section
+    -->
     <script>
+      // --- Particle Animation ---
       const canvas = document.getElementById("particleCanvas");
       const ctx = canvas.getContext("2d");
       let particles = [];
-      var w, h; // Changed 'let' to 'var' to prevent redeclaration error
+      var w, h;
 
-      // Set up the canvas dimensions on load and resize
       function resizeCanvas() {
         w = canvas.width = window.innerWidth;
         h = canvas.height = window.innerHeight;
-        // Re-initialize particles on resize to ensure they are within bounds
         initParticles();
       }
 
@@ -381,46 +780,40 @@
         constructor() {
           this.x = Math.random() * w;
           this.y = Math.random() * h;
-          this.vx = (Math.random() - 0.5) * 0.3; // Very slow movement
+          this.vx = (Math.random() - 0.5) * 0.3;
           this.vy = (Math.random() - 0.5) * 0.3;
-          this.radius = Math.random() * 1.5 + 0.5; // Small dots
-          this.color = "rgba(63, 185, 80, 0.7)"; // GitHub green color for dots
+          this.radius = Math.random() * 1.5 + 0.5;
         }
 
         update() {
-          // Move particle
           this.x += this.vx;
           this.y += this.vy;
-
-          // Keep particles within bounds
           if (this.x < 0 || this.x > w) this.vx *= -1;
           if (this.y < 0 || this.y > h) this.vy *= -1;
         }
 
-        draw() {
+        draw(color) {
           ctx.beginPath();
           ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-          ctx.fillStyle = this.color;
+          ctx.fillStyle = color;
           ctx.fill();
         }
       }
 
       function initParticles() {
         particles = [];
-        const particleCount = Math.floor((w * h) / 15000); // Density based on screen size
+        const particleCount = Math.floor((w * h) / 15000);
         for (let i = 0; i < particleCount; i++) {
           particles.push(new Particle());
         }
       }
 
-      function drawLines() {
-        const maxDistanceSq = 120 * 120; // Max distance for lines (squared for performance)
-
+      function drawLines(lineColor) {
+        const maxDistanceSq = 120 * 120;
         for (let i = 0; i < particles.length; i++) {
           for (let j = i + 1; j < particles.length; j++) {
             const p1 = particles[i];
             const p2 = particles[j];
-
             const dx = p1.x - p2.x;
             const dy = p1.y - p2.y;
             const distanceSq = dx * dx + dy * dy;
@@ -430,8 +823,10 @@
               ctx.beginPath();
               ctx.moveTo(p1.x, p1.y);
               ctx.lineTo(p2.x, p2.y);
-              // Line color is slightly faded green/gray
-              ctx.strokeStyle = `rgba(63, 185, 80, ${opacity * 0.15})`;
+              ctx.strokeStyle = lineColor.replace(
+                /[^,]+(?=\))/,
+                opacity * 0.15
+              ); // Use RGBA string replacement
               ctx.lineWidth = 0.5;
               ctx.stroke();
             }
@@ -439,27 +834,210 @@
         }
       }
 
-      // Main animation loop
       function animate() {
-        ctx.clearRect(0, 0, w, h); // Clear the frame
+        // Get computed style for colors
+        const computedStyle = getComputedStyle(document.documentElement);
+        const particleColor = computedStyle.getPropertyValue(
+          "--particle-color"
+        );
+        const particleLineColor = computedStyle.getPropertyValue(
+          "--particle-line-color"
+        );
 
-        drawLines(); // Draw connecting lines
-
+        ctx.clearRect(0, 0, w, h);
+        drawLines(particleLineColor);
         particles.forEach((p) => {
           p.update();
-          p.draw();
+          p.draw(particleColor);
         });
-
         requestAnimationFrame(animate);
       }
 
-      // Initialize and start
       window.addEventListener("load", () => {
         resizeCanvas();
         animate();
       });
       window.addEventListener("resize", resizeCanvas);
+
+      // --- NEW: Theme Toggle Logic ---
+      const themeToggle = document.getElementById("theme-toggle");
+      const htmlEl = document.documentElement;
+
+      // On load, check localStorage
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "light") {
+        htmlEl.classList.remove("dark");
+        themeToggle.checked = false;
+      } else {
+        htmlEl.classList.add("dark");
+        themeToggle.checked = true; // Default is dark
+      }
+
+      // Add event listener
+      themeToggle.addEventListener("change", () => {
+        if (themeToggle.checked) {
+          htmlEl.classList.add("dark");
+          localStorage.setItem("theme", "dark");
+        } else {
+          htmlEl.classList.remove("dark");
+          localStorage.setItem("theme", "light");
+        }
+      });
+
+      // --- NEW: Modal Logic ---
+      const modal = document.getElementById("auth-modal");
+      const openModalBtns = document.querySelectorAll(".open-auth-modal");
+      const closeModalBtn = document.getElementById("close-modal-btn");
+      const modalOverlay = document.getElementById("modal-overlay");
+      const loginTab = document.getElementById("login-tab");
+      const signupTab = document.getElementById("signup-tab");
+      const loginForm = document.getElementById("login-form");
+      const signupForm = document.getElementById("signup-form");
+
+      // Function to open modal
+      const openModal = (e) => {
+        e.preventDefault(); // Stop link navigation if it's an 'a' tag
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+      };
+
+      // Function to close modal
+      const closeModal = () => {
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+      };
+
+      // Attach listeners
+      openModalBtns.forEach((btn) => {
+        btn.addEventListener("click", openModal);
+      });
+      closeModalBtn.addEventListener("click", closeModal);
+      modalOverlay.addEventListener("click", closeModal);
+
+      // Tab switching
+      loginTab.addEventListener("click", () => {
+        loginForm.classList.remove("hidden");
+        signupForm.classList.add("hidden");
+        // Style login tab as active
+        loginTab.style.color = "var(--github-green)";
+        loginTab.style.borderColor = "var(--github-green)";
+        loginTab.style.borderBottomWidth = "2px";
+        // Style signup tab as inactive
+        signupTab.style.color = "var(--text-color-light)";
+        signupTab.style.borderColor = "transparent";
+      });
+
+      signupTab.addEventListener("click", () => {
+        signupForm.classList.remove("hidden");
+        loginForm.classList.add("hidden");
+        // Style signup tab as active
+        signupTab.style.color = "var(--github-green)";
+        signupTab.style.borderColor = "var(--github-green)";
+        signupTab.style.borderBottomWidth = "2px";
+        // Style login tab as inactive
+        loginTab.style.color = "var(--text-color-light)";
+        loginTab.style.borderColor = "transparent";
+      });
+
+      // --- NEW: Form Validation Logic ---
+      const signupEmail = document.getElementById("signup-email");
+      const signupPassword = document.getElementById("signup-password");
+      const createAccountBtn = document.getElementById("create-account-btn");
+      const emailError = document.getElementById("email-error");
+      const passwordError = document.getElementById("password-error");
+
+      const loginEmail = document.getElementById("login-email");
+      const loginPassword = document.getElementById("login-password");
+      const loginBtn = document.getElementById("login-btn");
+      const loginEmailError = document.getElementById("login-email-error");
+      const loginPasswordError = document.getElementById("login-password-error");
+
+      // Password validation regex
+      const upperCaseRegex = /[A-Z]/;
+      const numberRegex = /[0-9]/;
+      // A simple regex for common special characters
+      const specialCharRegex = /[!@#$%^&*()_\-+=|{}[\]:;"'<>,.?/]/;
+
+      createAccountBtn.addEventListener("click", (e) => {
+        e.preventDefault(); // Prevent form from submitting
+        let isSignupValid = true;
+
+        // Reset errors
+        emailError.classList.add("hidden");
+        passwordError.classList.add("hidden");
+        signupEmail.style.borderColor = "var(--box-border)";
+        signupPassword.style.borderColor = "var(--box-border)";
+
+        // 1. Validate Email
+        if (!signupEmail.value.includes("@")) {
+          emailError.classList.remove("hidden");
+          signupEmail.style.borderColor = "#ef4444"; // Red-500
+          isSignupValid = false;
+        }
+
+        // 2. Validate Password
+        const password = signupPassword.value;
+        let passErrorMsg = [];
+        if (!upperCaseRegex.test(password)) {
+          passErrorMsg.push("one uppercase letter");
+        }
+        if (!numberRegex.test(password)) {
+          passErrorMsg.push("one number");
+        }
+        if (!specialCharRegex.test(password)) {
+          passErrorMsg.push("one special character");
+        }
+
+        if (passErrorMsg.length > 0) {
+          // Update the error message to be specific
+          passwordError.textContent =
+            "Password must include at least " + passErrorMsg.join(", ") + ".";
+          passwordError.classList.remove("hidden");
+          signupPassword.style.borderColor = "#ef4444"; // Red-500
+          isSignupValid = false;
+        }
+
+        // 3. If all valid
+        if (isSignupValid) {
+          // This is where you would normally submit the form
+          console.log("Sign up form is valid! Submitting...");
+          // Optionally close the modal on success
+          // closeModal();
+        }
+      });
+
+      loginBtn.addEventListener("click", (e) => {
+        e.preventDefault(); // Prevent form from submitting
+        let isLoginValid = true;
+
+        // Reset errors
+        loginEmailError.classList.add("hidden");
+        loginPasswordError.classList.add("hidden");
+        loginEmail.style.borderColor = "var(--box-border)";
+        loginPassword.style.borderColor = "var(--box-border)";
+
+        // 1. Validate Email
+        if (!loginEmail.value.includes("@")) {
+          loginEmailError.classList.remove("hidden");
+          loginEmail.style.borderColor = "#ef4444"; // Red-500
+          isLoginValid = false;
+        }
+
+        // 2. Validate Password (just check if empty)
+        if (loginPassword.value.trim() === "") {
+          loginPasswordError.classList.remove("hidden");
+          loginPassword.style.borderColor = "#ef4444"; // Red-500
+          isLoginValid = false;
+        }
+
+        // 3. If all valid
+        if (isLoginValid) {
+          // This is where you would normally submit the form
+          console.log("Login form is valid! Submitting...");
+          // Optionally close the modal on success
+          // closeModal();
+        }
+      });
     </script>
   </body>
 </html>
-
