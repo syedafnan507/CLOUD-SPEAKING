@@ -1,20 +1,16 @@
 <!DOCTYPE html>
-<!-- Add class="dark" by default, JS will manage this -->
 <html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CLOUD SPEAKING - Online Communication Course</title>
-    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts (Inter) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
-    <!-- Icons for toggle and social buttons -->
     <script
       type="module"
       src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
@@ -25,50 +21,18 @@
     ></script>
 
     <style>
-      /* Custom styles now use CSS Variables for easy light/dark mode switching.
-        'html.dark' class controls the theme.
-      */
       :root {
-        /* LIGHT MODE DEFAULT */
-        --bg-color: #ffffff;
-        --text-color: #24292e;
-        --text-color-light: #586069;
-        --text-color-heading: #1f2328;
-        --header-bg: rgba(255, 255, 255, 0.8);
-        --header-border: rgba(0, 0, 0, 0.1);
-        --footer-border: rgba(0, 0, 0, 0.1);
-        --footer-text: #6a737d;
-        --box-bg: rgba(246, 248, 250, 0.8);
-        --box-border: #e1e4e8;
-        --particle-color: rgba(45, 160, 65, 0.7); /* Green for light mode */
-        --particle-line-color: rgba(45, 160, 65, 0.15);
-        --particle-opacity: 0.3;
-        --github-green: #2da041;
-        --github-green-hover: #268a37;
-        --github-yellow: #b08800;
-        --github-blue-text: #0366d6;
-        --card-border-color: rgba(0, 0, 0, 0.1);
-        --card-bg-start: rgba(0, 0, 0, 0.03);
-        --card-bg-end: rgba(0, 0, 0, 0.01);
-        --card-glow-start: rgba(89, 137, 237, 0.7); /* Blue glow */
-        --card-glow-end: rgba(162, 107, 240, 0.7); /* Violet glow */
-        --hero-grad-start: #1f2328;
-        --hero-grad-end: #444d56;
-      }
-
-      html.dark:root {
-        /* DARK MODE */
-        --bg-color: #0d1117;
+        --bg-color: #0b0f19; /* Darker background base */
         --text-color: #c9d1d9;
         --text-color-light: #8b949e;
         --text-color-heading: #ffffff;
-        --header-bg: rgba(13, 17, 23, 0.8);
+        --header-bg: rgba(11, 15, 25, 0.95); /* Dark header */
         --header-border: rgba(255, 255, 255, 0.1);
         --footer-border: rgba(48, 54, 61, 0.5);
         --footer-text: #6e7681;
-        --box-bg: rgba(36, 41, 47, 0.5);
+        --box-bg: rgba(36, 41, 47, 0.7);
         --box-border: #30363d;
-        --particle-color: rgba(63, 185, 80, 0.7); /* Original GitHub green */
+        --particle-color: rgba(63, 185, 80, 0.7); /* Greenish particles */
         --particle-line-color: rgba(63, 185, 80, 0.15);
         --particle-opacity: 0.5;
         --github-green: #3fb950;
@@ -82,18 +46,71 @@
         --card-glow-end: rgba(89, 137, 237, 0.5);
         --hero-grad-start: #c9d1d9;
         --hero-grad-end: #8b949e;
+        --accent-color: #8b5cf6; /* Purple accent */
+        --accent-hover: #7c3aed;
       }
 
-      /* Base body styles */
+      /* Light Theme Variables (Added for full light theme support) */
+      html:not(.dark) {
+        --bg-color: #ffffff;
+        --text-color: #24292e;
+        --text-color-light: #586069;
+        --text-color-heading: #000000;
+        --header-bg: rgba(255, 255, 255, 0.95);
+        --header-border: rgba(0, 0, 0, 0.1);
+        --footer-border: rgba(208, 215, 222, 0.5);
+        --footer-text: #6a737d;
+        --box-bg: rgba(246, 248, 250, 0.7);
+        --box-border: #d1d5db;
+        --particle-color: rgba(63, 185, 80, 0.9);
+        --particle-line-color: rgba(63, 185, 80, 0.3);
+        --particle-opacity: 0.8;
+        --card-border-color: rgba(0, 0, 0, 0.15);
+        --card-bg-start: rgba(255, 255, 255, 0.9);
+        --card-bg-end: rgba(255, 255, 255, 0.95);
+        --hero-grad-start: #24292e;
+        --hero-grad-end: #586069;
+      }
+
+      /* Base body style for the deep dark background */
       body {
         background-color: var(--bg-color);
         color: var(--text-color);
         font-family: "Inter", sans-serif;
         overflow-x: hidden;
         transition: background-color 0.3s ease, color 0.3s ease;
+        /* Custom deep gradient for the reflect.app feel */
+        /* Dark Gradient */
+        background: radial-gradient(
+            at 0% 0%,
+            rgba(20, 30, 60, 0.2) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            at 100% 100%,
+            rgba(100, 50, 150, 0.2) 0%,
+            transparent 50%
+          ),
+          linear-gradient(135deg, #0b0f19, #05080e);
+        background-attachment: fixed;
       }
 
-      /* Particle canvas */
+      /* Light Theme Body Gradient */
+      html:not(.dark) body {
+        background: radial-gradient(
+            at 0% 0%,
+            rgba(200, 220, 255, 0.4) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            at 100% 100%,
+            rgba(255, 200, 200, 0.4) 0%,
+            transparent 50%
+          ),
+          linear-gradient(135deg, #ffffff, #f0f4f7);
+        background-attachment: fixed;
+      }
+
       #particleCanvas {
         position: fixed;
         top: 0;
@@ -105,20 +122,33 @@
         transition: opacity 0.3s ease;
       }
 
-      /* Hero text gradient */
       .hero-gradient {
         background: linear-gradient(
-          180deg,
+          135deg,
           var(--hero-grad-start),
+          var(--accent-color),
           var(--hero-grad-end)
         );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         color: transparent;
+        background-size: 200% 200%;
+        animation: gradient-shift 8s ease infinite;
       }
 
-      /* Feature cards from original */
+      @keyframes gradient-shift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
       .feature-card {
         background: linear-gradient(
           180deg,
@@ -132,7 +162,7 @@
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
         position: relative;
         overflow: hidden;
-        transition: all 0.3s ease;
+        transition: all 0.4s ease;
       }
 
       .feature-card::before {
@@ -153,7 +183,12 @@
         z-index: -1;
         filter: blur(8px);
         opacity: 0;
-        transition: opacity 0.3s ease;
+        transition: opacity 0.4s ease;
+      }
+
+      html:not(.dark) .feature-card::before {
+        /* No glow effect on light theme for simplicity and better contrast */
+        display: none;
       }
 
       .feature-card:hover::before {
@@ -161,7 +196,8 @@
       }
 
       .feature-card:hover {
-        transform: translateY(-4px); /* Added hover motion */
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
       }
 
       .feature-card > * {
@@ -169,11 +205,11 @@
         z-index: 1;
       }
 
-      /* Toggle Switch Styles */
+      /* Theme Toggle styles adjusted to default to dark theme and only show sun/moon */
       .toggle-label {
         width: 50px;
         height: 26px;
-        background-color: #333;
+        background-color: #1f2937;
         border-radius: 9999px;
         cursor: pointer;
         display: flex;
@@ -183,7 +219,7 @@
         border: 1px solid var(--text-color-light);
       }
       .toggle-checkbox {
-        display: none; /* Hide default checkbox */
+        display: none;
       }
       .toggle-switch {
         width: 20px;
@@ -198,15 +234,30 @@
       }
       .toggle-switch ion-icon {
         font-size: 14px;
-        color: #333;
       }
-      /* Checked state (Light mode) */
+      /* Dark mode is the default (checked) state */
+      .toggle-checkbox:checked + .toggle-label {
+        background-color: #1f2937; /* Darker grey for dark theme background */
+        border-color: var(--text-color-light);
+      }
+      .toggle-checkbox:checked + .toggle-label .toggle-switch {
+        transform: translateX(0px); /* Dark theme: Moon on left */
+        background-color: #fff;
+      }
+      .toggle-checkbox:checked + .toggle-label .toggle-switch .moon {
+        display: block;
+        color: #4b5563;
+      }
+      .toggle-checkbox:checked + .toggle-label .toggle-switch .sun {
+        display: none;
+      }
+      /* Light mode is the unchecked state */
       .toggle-checkbox:not(:checked) + .toggle-label {
-        background-color: #d1d5db; /* Light gray */
+        background-color: #d1d5db; /* Lighter grey for light theme background */
         border-color: var(--text-color-light);
       }
       .toggle-checkbox:not(:checked) + .toggle-label .toggle-switch {
-        transform: translateX(24px);
+        transform: translateX(24px); /* Light theme: Sun on right */
         background-color: #fff;
       }
       .toggle-checkbox:not(:checked) + .toggle-label .toggle-switch .moon {
@@ -214,26 +265,10 @@
       }
       .toggle-checkbox:not(:checked) + .toggle-label .toggle-switch .sun {
         display: block;
-        color: #f59e0b; /* Amber */
+        color: #f59e0b;
       }
-      /* Unchecked state (Dark mode) */
-      .toggle-checkbox:checked + .toggle-label {
-        background-color: #1f2937; /* Dark gray */
-        border-color: var(--text-color-light);
-      }
-      .toggle-checkbox:checked + .toggle-label .toggle-switch {
-        transform: translateX(0px);
-        background-color: #fff;
-      }
-      .toggle-checkbox:checked + .toggle-label .toggle-switch .moon {
-        display: block;
-        color: #4b5563; /* Mid gray */
-      }
-      .toggle-checkbox:checked + .toggle-label .toggle-switch .sun {
-        display: none;
-      }
+      /* END Theme Toggle styles */
 
-      /* Generic transition for hover effects */
       .btn,
       .nav-link {
         transition: all 0.3s ease-in-out;
@@ -243,16 +278,124 @@
         opacity: 0.9;
       }
       .nav-link:hover {
-        color: var(--github-green) !important;
+        color: var(--accent-color) !important;
+      }
+
+      .pricing-card {
+        background: linear-gradient(
+          135deg,
+          var(--card-bg-start) 0%,
+          /* Using card gradient for pricing box */ var(--card-bg-end) 100%
+        );
+        border: 1px solid var(--card-border-color);
+        border-radius: 20px;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s ease;
+      }
+
+      .pricing-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--accent-color),
+          var(--github-green)
+        );
+      }
+
+      .pricing-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+      }
+
+      .social-btn {
+        transition: all 0.3s ease;
+        border: 1px solid var(--box-border);
+      }
+
+      .social-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .floating {
+        animation: floating 3s ease-in-out infinite;
+      }
+
+      @keyframes floating {
+        0% {
+          transform: translate(0, 0px);
+        }
+        50% {
+          transform: translate(0, 15px);
+        }
+        100% {
+          transform: translate(0, -0px);
+        }
+      }
+
+      .fade-in {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.6s ease;
+      }
+
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .stagger-item {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s ease;
+      }
+
+      .stagger-item.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .feature-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(
+          135deg,
+          var(--accent-color),
+          var(--github-green)
+        );
+        color: white;
+        font-size: 1.75rem;
+        transition: all 0.3s ease;
+      }
+
+      .feature-card:hover .feature-icon {
+        transform: scale(1.1) rotate(5deg);
+      }
+
+      .scroll-smooth {
+        scroll-behavior: smooth;
       }
     </style>
   </head>
-  <body class="text-[var(--text-color)]">
-    <!-- Background Animation Canvas --><canvas id="particleCanvas"></canvas>
+  <body class="text-[var(--text-color)] scroll-smooth">
+    <canvas id="particleCanvas"></canvas>
 
-    <!-- Header / Navigation Bar -->
     <header
-      class="sticky top-0 z-50 p-4 border-b backdrop-blur-sm"
+      class="sticky top-0 z-50 p-4 border-b backdrop-blur-lg transition-all duration-300"
       style="
         background-color: var(--header-bg);
         border-color: var(--header-border);
@@ -260,7 +403,7 @@
     >
       <div class="max-w-7xl mx-auto flex justify-between items-center">
         <h1
-          class="text-2xl font-bold tracking-widest"
+          class="text-2xl font-bold tracking-widest transition-all duration-300"
           style="color: var(--text-color-heading)"
         >
           CLOUD SPEAKING
@@ -270,20 +413,26 @@
             class="hidden md:flex space-x-6 text-sm"
             style="color: var(--text-color-light)"
           >
-            <a href="#about" class="nav-link">About</a>
-            <a href="#features" class="nav-link">Features</a>
-            <a href="#register" class="nav-link">Register</a>
-            <a href="#contact" class="nav-link">Contact</a>
+            <a href="#about" class="nav-link font-medium">About</a>
+            <a href="#features" class="nav-link font-medium">Features</a>
+            <a
+              href="https://tinyurl.com/cloudspeaking"
+              class="nav-link font-medium"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Register</a
+            >
+            <a
+              href="https://wa.me/917095891424"
+              class="nav-link font-medium"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Contact</a
+            >
           </nav>
 
-          <!-- Theme Toggle -->
           <div class="flex items-center">
-            <input
-              type="checkbox"
-              id="theme-toggle"
-              class="toggle-checkbox"
-              checked
-            />
+            <input type="checkbox" id="theme-toggle" class="toggle-checkbox" />
             <label for="theme-toggle" class="toggle-label">
               <span class="toggle-switch">
                 <ion-icon name="moon" class="moon"></ion-icon>
@@ -292,26 +441,31 @@
             </label>
           </div>
 
-          <button
-            class="open-auth-modal btn px-4 py-1 border rounded-lg text-sm border-gray-400 dark:border-gray-600 text-[var(--text-color)] hover:border-[var(--text-color-heading)]"
+          <a
+            href="https://tinyurl.com/cloudspeaking"
+            class="btn px-4 py-2 border rounded-lg text-sm font-medium transition-all duration-300"
+            style="
+              border-color: var(--box-border);
+              color: var(--text-color-heading);
+            "
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Sign Up / Log In
-          </button>
+          </a>
         </div>
       </div>
     </header>
 
-    <!-- Main Content Area -->
     <main class="max-w-7xl mx-auto px-4 py-16 md:py-32">
       <section
         id="about"
-        class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center"
+        class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center fade-in"
       >
-        <!-- Left Column: Main Headline and Description -->
         <div class="lg:col-span-7">
           <p
             class="text-xl mb-4 font-semibold uppercase tracking-wider"
-            style="color: var(--text-color-light)"
+            style="color: var(--accent-color)"
           >
             Speak Easy, Shine Crazy
           </p>
@@ -325,62 +479,76 @@
             communication skills from the basics.
           </p>
 
-          <!-- Key Benefits List -->
-          <ul class="space-y-3 text-lg" style="color: var(--text-color)">
-            <li class="flex items-start">
-              <svg
-                class="w-6 h-6 mr-2 flex-shrink-0 mt-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-                style="color: var(--github-green)"
+          <ul
+            class="space-y-4 text-lg stagger-container"
+            style="color: var(--text-color)"
+          >
+            <li class="flex items-start stagger-item">
+              <div
+                class="w-8 h-8 rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0"
+                style="background-color: var(--github-green); color: white"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                ></path>
-              </svg>
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="3"
+                    d="M5 13l4 4L19 7"
+                  ></path>
+                </svg>
+              </div>
               <span class="font-medium"
                 >Unlock your confidence in English Speaking</span
               >
             </li>
-            <li class="flex items-start">
-              <svg
-                class="w-6 h-6 mr-2 flex-shrink-0 mt-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-                style="color: var(--github-green)"
+            <li class="flex items-start stagger-item">
+              <div
+                class="w-8 h-8 rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0"
+                style="background-color: var(--github-green); color: white"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                ></path>
-              </svg>
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="3"
+                    d="M5 13l4 4L19 7"
+                  ></path>
+                </svg>
+              </div>
               <span class="font-medium">Master in Public Speaking skills</span>
             </li>
-            <li class="flex items-start">
-              <svg
-                class="w-6 h-6 mr-2 flex-shrink-0 mt-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-                style="color: var(--github-green)"
+            <li class="flex items-start stagger-item">
+              <div
+                class="w-8 h-8 rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0"
+                style="background-color: var(--github-green); color: white"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                ></path>
-              </svg>
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="3"
+                    d="M5 13l4 4L19 7"
+                  ></path>
+                </svg>
+              </div>
               <span class="font-medium"
                 >Enhance your personality and Communication abilities</span
               >
@@ -388,11 +556,9 @@
           </ul>
         </div>
 
-        <!-- Right Column: Registration/CTA Box -->
         <div
           id="register"
-          class="lg:col-span-5 p-8 md:p-10 rounded-xl border shadow-2xl"
-          style="background-color: var(--box-bg); border-color: var(--box-border)"
+          class="lg:col-span-5 pricing-card p-8 md:p-10 floating"
         >
           <div class="text-center mb-6">
             <p
@@ -403,43 +569,60 @@
             </p>
             <p class="text-lg" style="color: var(--text-color)">
               per month
-              <span class="text-sm" style="color: var(--github-yellow)"
+              <span
+                class="text-sm font-medium"
+                style="color: var(--github-yellow)"
                 >(Limited Seats Available)</span
               >
             </p>
             <p class="text-sm mt-2" style="color: var(--text-color-light)">
               Classes begin on
-              <span class="font-semibold" style="color: var(--text-color-heading)"
+              <span
+                class="font-semibold"
+                style="color: var(--text-color-heading)"
                 >1st November, 2025</span
               >
             </p>
           </div>
 
           <div class="space-y-4">
-            <p class="text-sm text-center" style="color: var(--text-color-light)">
+            <p
+              class="text-sm text-center"
+              style="color: var(--text-color-light)"
+            >
               Mode:
-              <span class="font-semibold" style="color: var(--text-color-heading)"
+              <span
+                class="font-semibold"
+                style="color: var(--text-color-heading)"
                 >Online</span
               >
             </p>
 
-            <button
-              class="open-auth-modal btn w-full block text-center text-white font-semibold py-3 rounded-lg shadow-lg shadow-green-700/30"
+            <a
+              href="https://tinyurl.com/cloudspeaking"
+              class="btn w-full block text-center text-white font-semibold py-4 rounded-xl shadow-lg transition-all duration-300"
               style="
-                background-color: var(--github-green);
+                background: linear-gradient(
+                  135deg,
+                  var(--accent-color),
+                  var(--github-green)
+                );
                 color: #ffffff !important;
               "
-              onmouseover="this.style.backgroundColor='var(--github-green-hover)'"
-              onmouseout="this.style.backgroundColor='var(--github-green)'"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               Secure Your Seat Now
-            </button>
+            </a>
 
             <div
               class="mt-6 pt-4 border-t"
               style="border-color: var(--box-border)"
             >
-              <p class="text-sm text-center" style="color: var(--text-color-light)">
+              <p
+                class="text-sm text-center"
+                style="color: var(--text-color-light)"
+              >
                 For bulk registrations or inquiries:
               </p>
               <p
@@ -448,11 +631,13 @@
               >
                 Call/WhatsApp:
                 <a
-                  href="tel:7095891424"
+                  href="https://wa.me/917095891424"
                   class="transition-colors duration-300"
                   style="color: var(--github-blue-text)"
                   onmouseover="this.style.textDecoration='underline'"
                   onmouseout="this.style.textDecoration='none'"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   >7095891424</a
                 >
               </p>
@@ -461,14 +646,13 @@
         </div>
       </section>
 
-      <!-- Secondary Section: Course Offerings -->
       <section
         id="features"
-        class="mt-20 pt-16 border-t"
+        class="mt-20 pt-16 border-t fade-in"
         style="border-color: var(--footer-border)"
       >
         <h3
-          class="text-4xl font-extrabold mb-8 text-center"
+          class="text-4xl font-extrabold mb-4 text-center"
           style="color: var(--text-color-heading)"
         >
           What We Offer
@@ -482,24 +666,11 @@
           Professionals).
         </p>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <!-- Feature Card 1 -->
-          <div class="feature-card p-6 shadow-xl">
-            <svg
-              class="w-8 h-8 mb-3"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              style="color: var(--github-green)"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 11-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.354-.354M7 9h4m-4 4h4"
-              ></path>
-            </svg>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 stagger-container">
+          <div class="feature-card p-6 stagger-item">
+            <div class="feature-icon">
+              <ion-icon name="chatbubbles-outline"></ion-icon>
+            </div>
             <h4
               class="text-xl font-semibold mb-2"
               style="color: var(--text-color-heading)"
@@ -512,23 +683,10 @@
             </p>
           </div>
 
-          <!-- Feature Card 2 -->
-          <div class="feature-card p-6 shadow-xl">
-            <svg
-              class="w-8 h-8 mb-3"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              style="color: var(--github-green)"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M14 10h4.765l-2.382 2.382M14 10l.928-.928M14 10a3 3 0 11-6 0 3 3 0 016 0z"
-              ></path>
-            </svg>
+          <div class="feature-card p-6 stagger-item">
+            <div class="feature-icon">
+              <ion-icon name="people-outline"></ion-icon>
+            </div>
             <h4
               class="text-xl font-semibold mb-2"
               style="color: var(--text-color-heading)"
@@ -541,23 +699,10 @@
             </p>
           </div>
 
-          <!-- Feature Card 3 -->
-          <div class="feature-card p-6 shadow-xl">
-            <svg
-              class="w-8 h-8 mb-3"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              style="color: var(--github-green)"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 6.253v13m0-13C10.832 5.477 9.206 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.794 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.794 5 16.5 5s3.332.477 4.5 1.253v13C19.832 18.477 18.206 18 16.5 18s-3.332.477-4.5 1.253"
-              ></path>
-            </svg>
+          <div class="feature-card p-6 stagger-item">
+            <div class="feature-icon">
+              <ion-icon name="library-outline"></ion-icon>
+            </div>
             <h4
               class="text-xl font-semibold mb-2"
               style="color: var(--text-color-heading)"
@@ -573,10 +718,9 @@
       </section>
     </main>
 
-    <!-- Footer -->
     <footer
       id="contact"
-      class="border-t mt-16 p-8 text-center text-sm"
+      class="border-t mt-16 p-8 text-center text-sm fade-in"
       style="border-color: var(--footer-border); color: var(--footer-text)"
     >
       <p>&copy; 2025 CLOUD SPEAKING. All rights reserved.</p>
@@ -585,20 +729,15 @@
       </p>
     </footer>
 
-    <!--
-      NEW: Login/Sign-up Modal
-    -->
     <div
       id="auth-modal"
       class="hidden fixed inset-0 z-[100] items-center justify-center p-4"
     >
-      <!-- Modal Overlay -->
       <div
         id="modal-overlay"
         class="absolute inset-0 bg-black/70 backdrop-blur-sm"
       ></div>
 
-      <!-- Modal Content -->
       <div
         class="relative z-10 w-full max-w-md p-8 rounded-2xl border shadow-2xl"
         style="
@@ -606,7 +745,6 @@
           border-color: var(--box-border);
         "
       >
-        <!-- Close Button -->
         <button
           id="close-modal-btn"
           class="btn absolute top-4 right-4 text-[var(--text-color-light)] hover:text-[var(--text-color-heading)]"
@@ -614,57 +752,52 @@
           <ion-icon name="close-outline" class="text-3xl"></ion-icon>
         </button>
 
-        <!-- Tabs -->
         <div class="flex mb-6 border-b" style="border-color: var(--box-border)">
           <button
             id="signup-tab"
-            class="flex-1 py-3 font-semibold text-center border-b-2"
-            style="color: var(--github-green); border-color: var(--github-green)"
+            class="flex-1 py-3 font-semibold text-center border-b-2 transition-colors duration-300"
+            style="
+              color: var(--accent-color);
+              border-color: var(--accent-color);
+            "
           >
             Sign Up
           </button>
           <button
             id="login-tab"
-            class="flex-1 py-3 font-semibold text-center text-[var(--text-color-light)]"
+            class="flex-1 py-3 font-semibold text-center text-[var(--text-color-light)] transition-colors duration-300"
           >
             Log In
           </button>
         </div>
 
-        <!-- Sign Up Form (Default) -->
         <div id="signup-form" class="space-y-5">
           <button
-            class="btn w-full flex items-center justify-center py-3 px-4 border rounded-lg"
+            class="social-btn w-full flex items-center justify-center py-3 px-4 border rounded-lg"
             style="border-color: var(--box-border)"
           >
             <ion-icon name="logo-google" class="mr-3 text-lg"></ion-icon>
             Sign up with Google
           </button>
           <button
-            class="btn w-full flex items-center justify-center py-3 px-4 border rounded-lg"
+            class="social-btn w-full flex items-center justify-center py-3 px-4 border rounded-lg"
             style="border-color: var(--box-border)"
           >
             <ion-icon name="logo-microsoft" class="mr-3 text-lg"></ion-icon>
             Sign up with Microsoft
           </button>
           <div class="flex items-center">
-            <hr
-              class="flex-1"
-              style="border-color: var(--box-border)"
-            />
+            <hr class="flex-1" style="border-color: var(--box-border)" />
             <span class="px-3 text-sm" style="color: var(--text-color-light)"
               >OR</span
             >
-            <hr
-              class="flex-1"
-              style="border-color: var(--box-border)"
-            />
+            <hr class="flex-1" style="border-color: var(--box-border)" />
           </div>
           <input
             type="email"
             id="signup-email"
             placeholder="Email address"
-            class="w-full p-3 rounded-lg border bg-transparent"
+            class="w-full p-3 rounded-lg border bg-transparent transition-colors duration-300"
             style="border-color: var(--box-border)"
           />
           <p id="email-error" class="hidden text-red-500 text-sm -mt-3">
@@ -674,7 +807,7 @@
             type="password"
             id="signup-password"
             placeholder="Password"
-            class="w-full p-3 rounded-lg border bg-transparent"
+            class="w-full p-3 rounded-lg border bg-transparent transition-colors duration-300"
             style="border-color: var(--box-border)"
           />
           <p id="password-error" class="hidden text-red-500 text-sm -mt-3">
@@ -683,52 +816,47 @@
           </p>
           <button
             id="create-account-btn"
-            class="btn w-full text-white font-semibold py-3 rounded-lg"
+            class="btn w-full text-white font-semibold py-3 rounded-lg transition-all duration-300"
             style="
-              background-color: var(--github-green);
+              background: linear-gradient(
+                135deg,
+                var(--accent-color),
+                var(--github-green)
+              );
               color: #ffffff !important;
             "
-            onmouseover="this.style.backgroundColor='var(--github-green-hover)'"
-            onmouseout="this.style.backgroundColor='var(--github-green)'"
           >
             Create Account
           </button>
         </div>
 
-        <!-- Login Form (Hidden) -->
         <div id="login-form" class="hidden space-y-5">
           <button
-            class="btn w-full flex items-center justify-center py-3 px-4 border rounded-lg"
+            class="social-btn w-full flex items-center justify-center py-3 px-4 border rounded-lg"
             style="border-color: var(--box-border)"
           >
             <ion-icon name="logo-google" class="mr-3 text-lg"></ion-icon>
             Log in with Google
           </button>
           <button
-            class="btn w-full flex items-center justify-center py-3 px-4 border rounded-lg"
+            class="social-btn w-full flex items-center justify-center py-3 px-4 border rounded-lg"
             style="border-color: var(--box-border)"
           >
             <ion-icon name="logo-microsoft" class="mr-3 text-lg"></ion-icon>
             Log in with Microsoft
           </button>
           <div class="flex items-center">
-            <hr
-              class="flex-1"
-              style="border-color: var(--box-border)"
-            />
+            <hr class="flex-1" style="border-color: var(--box-border)" />
             <span class="px-3 text-sm" style="color: var(--text-color-light)"
               >OR</span
             >
-            <hr
-              class="flex-1"
-              style="border-color: var(--box-border)"
-            />
+            <hr class="flex-1" style="border-color: var(--box-border)" />
           </div>
           <input
             type="email"
             id="login-email"
             placeholder="Email address"
-            class="w-full p-3 rounded-lg border bg-transparent"
+            class="w-full p-3 rounded-lg border bg-transparent transition-colors duration-300"
             style="border-color: var(--box-border)"
           />
           <p id="login-email-error" class="hidden text-red-500 text-sm -mt-3">
@@ -738,21 +866,26 @@
             type="password"
             id="login-password"
             placeholder="Password"
-            class="w-full p-3 rounded-lg border bg-transparent"
+            class="w-full p-3 rounded-lg border bg-transparent transition-colors duration-300"
             style="border-color: var(--box-border)"
           />
-          <p id="login-password-error" class="hidden text-red-500 text-sm -mt-3">
+          <p
+            id="login-password-error"
+            class="hidden text-red-500 text-sm -mt-3"
+          >
             Please enter your password.
           </p>
           <button
             id="login-btn"
-            class="btn w-full text-white font-semibold py-3 rounded-lg"
+            class="btn w-full text-white font-semibold py-3 rounded-lg transition-all duration-300"
             style="
-              background-color: var(--github-green);
+              background: linear-gradient(
+                135deg,
+                var(--accent-color),
+                var(--github-green)
+              );
               color: #ffffff !important;
             "
-            onmouseover="this.style.backgroundColor='var(--github-green-hover)'"
-            onmouseout="this.style.backgroundColor='var(--github-green)'"
           >
             Log In
           </button>
@@ -760,9 +893,6 @@
       </div>
     </div>
 
-    <!-- 
-      JavaScript Section
-    -->
     <script>
       // --- Particle Animation ---
       const canvas = document.getElementById("particleCanvas");
@@ -826,7 +956,7 @@
               ctx.strokeStyle = lineColor.replace(
                 /[^,]+(?=\))/,
                 opacity * 0.15
-              ); // Use RGBA string replacement
+              );
               ctx.lineWidth = 0.5;
               ctx.stroke();
             }
@@ -835,11 +965,9 @@
       }
 
       function animate() {
-        // Get computed style for colors
         const computedStyle = getComputedStyle(document.documentElement);
-        const particleColor = computedStyle.getPropertyValue(
-          "--particle-color"
-        );
+        const particleColor =
+          computedStyle.getPropertyValue("--particle-color");
         const particleLineColor = computedStyle.getPropertyValue(
           "--particle-line-color"
         );
@@ -853,40 +981,53 @@
         requestAnimationFrame(animate);
       }
 
-      window.addEventListener("load", () => {
-        resizeCanvas();
-        animate();
-      });
-      window.addEventListener("resize", resizeCanvas);
-
-      // --- NEW: Theme Toggle Logic ---
+      // --- Theme Toggle Logic (Modified to allow user choice) ---
       const themeToggle = document.getElementById("theme-toggle");
       const htmlEl = document.documentElement;
 
-      // On load, check localStorage
-      const savedTheme = localStorage.getItem("theme");
-      if (savedTheme === "light") {
-        htmlEl.classList.remove("dark");
-        themeToggle.checked = false;
-      } else {
-        htmlEl.classList.add("dark");
-        themeToggle.checked = true; // Default is dark
-      }
-
-      // Add event listener
-      themeToggle.addEventListener("change", () => {
-        if (themeToggle.checked) {
+      // Function to set the theme
+      function setTheme(theme) {
+        if (theme === "dark") {
           htmlEl.classList.add("dark");
+          themeToggle.checked = true; // Checked means Dark
           localStorage.setItem("theme", "dark");
         } else {
           htmlEl.classList.remove("dark");
+          themeToggle.checked = false; // Unchecked means Light
           localStorage.setItem("theme", "light");
         }
-      });
+      }
 
-      // --- NEW: Modal Logic ---
+      // Initial theme setup on load
+      const savedTheme = localStorage.getItem("theme");
+      // Default to dark if no preference is saved
+      if (savedTheme) {
+        setTheme(savedTheme);
+      } else {
+        // Since the HTML defaults to dark, this line just syncs the toggle state
+        setTheme("dark");
+      }
+
+      themeToggle.addEventListener("change", () => {
+        if (themeToggle.checked) {
+          setTheme("dark");
+        } else {
+          setTheme("light");
+        }
+      });
+      // END Theme Toggle Logic
+
+      window.addEventListener("load", () => {
+        resizeCanvas();
+        animate();
+        // Initialize scroll animations
+        initScrollAnimations();
+      });
+      window.addEventListener("resize", resizeCanvas);
+
+      // --- Modal Logic (Modified: Open buttons removed, but modal code retained for structure) ---
       const modal = document.getElementById("auth-modal");
-      const openModalBtns = document.querySelectorAll(".open-auth-modal");
+      // const openModalBtns = document.querySelectorAll(".open-auth-modal"); // REMOVED THIS SELECTOR
       const closeModalBtn = document.getElementById("close-modal-btn");
       const modalOverlay = document.getElementById("modal-overlay");
       const loginTab = document.getElementById("login-tab");
@@ -894,35 +1035,24 @@
       const loginForm = document.getElementById("login-form");
       const signupForm = document.getElementById("signup-form");
 
-      // Function to open modal
-      const openModal = (e) => {
-        e.preventDefault(); // Stop link navigation if it's an 'a' tag
-        modal.classList.remove("hidden");
-        modal.classList.add("flex");
-      };
-
-      // Function to close modal
       const closeModal = () => {
         modal.classList.add("hidden");
         modal.classList.remove("flex");
       };
 
-      // Attach listeners
-      openModalBtns.forEach((btn) => {
-        btn.addEventListener("click", openModal);
-      });
+      // Since the links are direct CTAs now, the modal should only be closed, not opened by the CTA buttons.
+      // openModalBtns.forEach((btn) => {
+      //   btn.addEventListener("click", openModal);
+      // });
       closeModalBtn.addEventListener("click", closeModal);
       modalOverlay.addEventListener("click", closeModal);
 
-      // Tab switching
       loginTab.addEventListener("click", () => {
         loginForm.classList.remove("hidden");
         signupForm.classList.add("hidden");
-        // Style login tab as active
-        loginTab.style.color = "var(--github-green)";
-        loginTab.style.borderColor = "var(--github-green)";
+        loginTab.style.color = "var(--accent-color)";
+        loginTab.style.borderColor = "var(--accent-color)";
         loginTab.style.borderBottomWidth = "2px";
-        // Style signup tab as inactive
         signupTab.style.color = "var(--text-color-light)";
         signupTab.style.borderColor = "transparent";
       });
@@ -930,16 +1060,14 @@
       signupTab.addEventListener("click", () => {
         signupForm.classList.remove("hidden");
         loginForm.classList.add("hidden");
-        // Style signup tab as active
-        signupTab.style.color = "var(--github-green)";
-        signupTab.style.borderColor = "var(--github-green)";
+        signupTab.style.color = "var(--accent-color)";
+        signupTab.style.borderColor = "var(--accent-color)";
         signupTab.style.borderBottomWidth = "2px";
-        // Style login tab as inactive
         loginTab.style.color = "var(--text-color-light)";
         loginTab.style.borderColor = "transparent";
       });
 
-      // --- NEW: Form Validation Logic ---
+      // --- Form Validation Logic (Retained for modal functionality) ---
       const signupEmail = document.getElementById("signup-email");
       const signupPassword = document.getElementById("signup-password");
       const createAccountBtn = document.getElementById("create-account-btn");
@@ -950,32 +1078,29 @@
       const loginPassword = document.getElementById("login-password");
       const loginBtn = document.getElementById("login-btn");
       const loginEmailError = document.getElementById("login-email-error");
-      const loginPasswordError = document.getElementById("login-password-error");
+      const loginPasswordError = document.getElementById(
+        "login-password-error"
+      );
 
-      // Password validation regex
       const upperCaseRegex = /[A-Z]/;
       const numberRegex = /[0-9]/;
-      // A simple regex for common special characters
       const specialCharRegex = /[!@#$%^&*()_\-+=|{}[\]:;"'<>,.?/]/;
 
       createAccountBtn.addEventListener("click", (e) => {
-        e.preventDefault(); // Prevent form from submitting
+        e.preventDefault();
         let isSignupValid = true;
 
-        // Reset errors
         emailError.classList.add("hidden");
         passwordError.classList.add("hidden");
         signupEmail.style.borderColor = "var(--box-border)";
         signupPassword.style.borderColor = "var(--box-border)";
 
-        // 1. Validate Email
         if (!signupEmail.value.includes("@")) {
           emailError.classList.remove("hidden");
-          signupEmail.style.borderColor = "#ef4444"; // Red-500
+          signupEmail.style.borderColor = "#ef4444";
           isSignupValid = false;
         }
 
-        // 2. Validate Password
         const password = signupPassword.value;
         let passErrorMsg = [];
         if (!upperCaseRegex.test(password)) {
@@ -989,55 +1114,72 @@
         }
 
         if (passErrorMsg.length > 0) {
-          // Update the error message to be specific
           passwordError.textContent =
             "Password must include at least " + passErrorMsg.join(", ") + ".";
           passwordError.classList.remove("hidden");
-          signupPassword.style.borderColor = "#ef4444"; // Red-500
+          signupPassword.style.borderColor = "#ef4444";
           isSignupValid = false;
         }
 
-        // 3. If all valid
         if (isSignupValid) {
-          // This is where you would normally submit the form
           console.log("Sign up form is valid! Submitting...");
-          // Optionally close the modal on success
-          // closeModal();
         }
       });
 
       loginBtn.addEventListener("click", (e) => {
-        e.preventDefault(); // Prevent form from submitting
+        e.preventDefault();
         let isLoginValid = true;
 
-        // Reset errors
         loginEmailError.classList.add("hidden");
         loginPasswordError.classList.add("hidden");
         loginEmail.style.borderColor = "var(--box-border)";
         loginPassword.style.borderColor = "var(--box-border)";
 
-        // 1. Validate Email
         if (!loginEmail.value.includes("@")) {
           loginEmailError.classList.remove("hidden");
-          loginEmail.style.borderColor = "#ef4444"; // Red-500
+          loginEmail.style.borderColor = "#ef4444";
           isLoginValid = false;
         }
 
-        // 2. Validate Password (just check if empty)
         if (loginPassword.value.trim() === "") {
           loginPasswordError.classList.remove("hidden");
-          loginPassword.style.borderColor = "#ef4444"; // Red-500
+          loginPassword.style.borderColor = "#ef4444";
           isLoginValid = false;
         }
 
-        // 3. If all valid
         if (isLoginValid) {
-          // This is where you would normally submit the form
           console.log("Login form is valid! Submitting...");
-          // Optionally close the modal on success
-          // closeModal();
         }
       });
+
+      // --- Scroll Animation Logic ---
+      function initScrollAnimations() {
+        const fadeElements = document.querySelectorAll(".fade-in");
+        const staggerItems = document.querySelectorAll(".stagger-item");
+
+        const observerOptions = {
+          root: null,
+          rootMargin: "0px",
+          threshold: 0.1,
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+
+              // For stagger items, add a delay based on their index
+              if (entry.target.classList.contains("stagger-item")) {
+                const index = Array.from(staggerItems).indexOf(entry.target);
+                entry.target.style.transitionDelay = `${index * 0.1}s`;
+              }
+            }
+          });
+        }, observerOptions);
+
+        fadeElements.forEach((el) => observer.observe(el));
+        staggerItems.forEach((el) => observer.observe(el));
+      }
     </script>
   </body>
 </html>
